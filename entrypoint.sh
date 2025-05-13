@@ -1,6 +1,9 @@
 #!/bin/bash -l
 set -e
 
+# Temporary disable
+HAS_APP=""
+
 if [ "${HAS_APP}" ]; then
 echo "Trying to set commit status for ${REPO}/commit/${SHA}"
 echo "Source status: ${SOURCE_STATUS}"
