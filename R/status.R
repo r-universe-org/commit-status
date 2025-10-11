@@ -48,7 +48,7 @@ gh_app_set_commit_status <- function(repo, pkg, sha, url, universe, deployed_pac
     endpoint2 <- sprintf('/repos/%s/commits/%s/status', repo, sha)
     statuses <- gh::gh(endpoint2, .token = token)$statuses
     pending <- Find(function(x){
-      return(x$state == 'pending' && x$context == sprintf('r-universe/%s//deploy', universe))
+      return(x$state == 'pending' && x$context == context)
     }, statuses)
     if(length(pending)){
       print("Finalizing broken status update...")
