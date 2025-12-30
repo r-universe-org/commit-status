@@ -1,51 +1,32 @@
 name: 'Commit Status'
 description: 'GitHub App to set Commit Status'
 inputs:
-  repo:
+  package:
+    description: 'Name of the package to be deployed'
+    required: false
+  repository:
     description: 'Full repo name for example "ropensci/magick"'
     required: true
-  sha:
+  ref:
     description: 'Hash of the commit to update'
     required: true
-  url:
+  buildlog:
     description: 'Link to the build logs'
     required: true
   universe:
     description: 'Name of the universe where packages were deployed to'
     required: true
-  deployed_packages:
+  jobs:
     description: 'String with deployed packages to infer success'
     required: false
-  source_status:
-    description: 'Success or failure of building source package vignettes'
-    required: false
-  docs_status:
-    description: 'Success or failure of building pkgdown documentation'
-    required: false
-  ostype:
-    description: 'The OS_type field in description'
-    required: true
-  package:
-    description: 'Name of the package to be deployed'
-    required: false
-  has_app:
-    description: 'If upstream has the app installed'
-    required: false
-  is_rebuild:
-    description: 'This is a rebuild of an older commit'
-    required: false
+
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/r-universe-org/commit-status'
+  image: 'docker://ghcr.io/r-universe-org/commit-status:v3'
   env:
-    REPO: ${{ inputs.repo }}
-    SHA: ${{ inputs.sha }}
-    BUILDLOG: ${{ inputs.url }}
-    UNIVERSE: ${{ inputs.universe }}
-    DEPLOYED_PACKAGES: ${{ inputs.deployed_packages }}
-    SOURCE_STATUS: ${{ inputs.source_status }}
-    DOCS_STATUS: ${{ inputs.docs_status }}
-    OSTYPE: ${{ inputs.ostype }}
     PACKAGE: ${{ inputs.package }}
-    HAS_APP: ${{ inputs.has_app }}
-    IS_REBUILD: ${{ inputs.is_rebuild }}
+    REPOSITORY: ${{ inputs.repository }}
+    REF: ${{ inputs.ref }}
+    BUILDLOG: ${{ inputs.buildlog }}
+    UNIVERSE: ${{ inputs.universe }}
+    JOBS: ${{ inputs.jobs }}
