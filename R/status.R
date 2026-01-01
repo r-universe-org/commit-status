@@ -23,6 +23,13 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
     return()
   }
 
+  # When run is cancelled or something went wrong in the system, set job to OK
+  if(jobsdata == '' || !jsonlite::validate(jobsdata)){
+    print(gh::gh(endpoint, .method = 'POST', .token = token, state = 'success',
+                 target_url = buildlog, context = context, description = description))
+    return()
+  }
+
   # Set final commit status
   jobs <- jsonlite::parse_gzjson_b64(jobsdata)
   state <- release_state(jobs)
