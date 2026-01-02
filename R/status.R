@@ -45,10 +45,8 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
   pkgdown <- pkgdown_state(jobs)
   if(length(pkgdown)){
     description <- 'Render pkgdown documentation site'
-    state <- ifelse(identical(pkgdown, 'OK'), 'success', 'failure')
-    docs_url <- if(state == 'success'){
-      paste0('https://docs.ropensci.org/', pkg)
-    } else {buildlog}
+    docs_url <- ifelse(identical(pkgdown, 'success'), paste0('https://docs.ropensci.org/', pkg), buildlog)
+    cat(sprintf("Setting pkgdown status %s: %s\n", pkgdown, docs_url))
     print(gh::gh(endpoint, .method = 'POST', .token = token, state = pkgdown,
            target_url = docs_url, context = 'pkgdown-docs', description = description))
   } else {
