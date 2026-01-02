@@ -18,20 +18,22 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
   context <- sprintf('r-universe/%s/%s/deploy', universe, pkg)
   description <- 'Deploy binaries to R-universe package server'
   if(jobsdata == 'pending'){
-    print(gh::gh(endpoint, .method = 'POST', .token = token, state = 'pending',
-                 target_url = buildlog, context = context, description = description))
+    gh::gh(endpoint, .method = 'POST', .token = token, state = 'pending',
+                 target_url = buildlog, context = context, description = description)
     return()
   }
 
   # When run is cancelled or something went wrong in the system, set job to OK
-  if(jobsdata == '' || !jsonlite::validate(jobsdata)){
-    print(gh::gh(endpoint, .method = 'POST', .token = token, state = 'success',
-                 target_url = buildlog, context = context, description = description))
+  if(jobsdata == ''){
+    cat("Invalid jobsdata. Resetting status:\n", jobsdata, "\n")
+    gh::gh(endpoint, .method = 'POST', .token = token, state = 'success',
+                 target_url = buildlog, context = context, description = description)
     return()
   }
 
   # Set final commit status
   jobs <- jsonlite::parse_gzjson_b64(jobsdata)
+  print(jobs)
   state <- release_state(jobs)
   univ_url <- if(state == 'success'){
     sprintf('https://%s.r-universe.dev/%s', universe, pkg)
