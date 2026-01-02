@@ -16,8 +16,8 @@ inputs:
   universe:
     description: 'Name of the universe where packages were deployed to'
     required: true
-  jobs:
-    description: 'String with deployed packages to infer success'
+  jobdata:
+    description: 'Base64 string with deployed packages to infer success'
     required: false
 
 runs:
@@ -29,4 +29,4 @@ runs:
     REF: ${{ inputs.ref }}
     BUILDLOG: ${{ inputs.buildlog }}
     UNIVERSE: ${{ inputs.universe }}
-    JOBS: ${{ inputs.jobs }}
+    JOBDATA: ${{ inputs.jobdata }}
