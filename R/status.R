@@ -55,7 +55,7 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
 }
 
 release_state <- function(df){
-  checks <- df[grepl('(linux|windows|macos)-release|source', df$config), 'check']
+  checks <- df[grepl('source|(linux|windows|macos)-(devel|release)', df$config), 'check']
   ifelse(any(grepl("FAIL|ERROR", checks)), 'failure', 'success')
 }
 
