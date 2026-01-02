@@ -49,6 +49,8 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
     } else {buildlog}
     print(gh::gh(endpoint, .method = 'POST', .token = token, state = pkgdown,
            target_url = docs_url, context = 'pkgdown-docs', description = description))
+  } else {
+    message("No pkgdown job found")
   }
 }
 
