@@ -14,6 +14,11 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
   repo <- sub("https?://github.com/", "", repo)
   repo <- sub("\\.git$", "", repo)
   token <- ghapps::gh_app_token(repo)
+  info <- gh::gh(paste0('/repos/', repo), .token = token)
+  if(isTRUE(info$archived)){
+    message("Repo has been archived")
+    return()
+  }
   endpoint <- sprintf('/repos/%s/statuses/%s', repo, ref)
   context <- sprintf('r-universe/%s/%s/deploy', universe, pkg)
   description <- 'Deploy binaries to R-universe package server'
