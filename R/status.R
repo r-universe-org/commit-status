@@ -23,7 +23,7 @@ gh_app_set_commit_status <- function(repo, pkg, ref, buildlog, universe, jobsdat
   context <- sprintf('r-universe/%s/%s/deploy', universe, pkg)
   description <- 'Deploy binaries to R-universe package server'
   if(jobsdata == 'pending'){
-    gh::gh(endpoint, .method = 'POST', .token = token, state = 'in_progress',
+    gh::gh(endpoint, .method = 'POST', .token = token, state = 'pending',
                  target_url = buildlog, context = context, description = description)
     return()
   }
